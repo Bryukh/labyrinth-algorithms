@@ -29,3 +29,7 @@ body {
     padding-top: 5px;
     color: #115d81;
 }
+
+.board {
+    text-align: center;
+}

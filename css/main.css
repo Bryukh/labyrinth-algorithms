@@ -1,0 +1,31 @@
+body {
+    font-family: Roboto, Arial, 'Open Sans', sans-serif;
+    background-color: #dceaf1;
+}
+
+#header {
+    background-color: #9ad0ec;
+    color: #115d81;
+    margin-top: 0;
+    padding-top: 40px;
+}
+
+#header p {
+    font-size: large;
+}
+
+.github-fork-ribbon {
+    background-color: #115d81;
+}
+
+#sidebar {
+    position: fixed;
+    padding-left: 20px;
+    height: 100%;
+}
+
+#sidebar li {
+    font-size: medium;
+    padding-top: 5px;
+    color: #115d81;
+}

@@ -33,3 +33,9 @@ body {
 .board {
     text-align: center;
 }
+
+@media only screen and (max-width: 480px) {
+    #sidebar {
+        display: none;
+    }
+}

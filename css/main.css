@@ -18,10 +18,10 @@ body {
     background-color: #115d81;
 }
 
-#sidebar {
-    padding-left: 20px;
-    position: fixed;
-}
+/*#sidebar {*/
+    /*padding-left: 20px;*/
+    /*position: fixed;*/
+/*}*/
 
 
 #sidebar li {

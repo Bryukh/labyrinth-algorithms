@@ -19,10 +19,10 @@ body {
 }
 
 #sidebar {
-    position: fixed;
     padding-left: 20px;
-    height: 100%;
+    position: fixed;
 }
+
 
 #sidebar li {
     font-size: medium;

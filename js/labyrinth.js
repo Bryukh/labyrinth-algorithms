@@ -47,7 +47,6 @@ function createGraph(mazeBase, svg) {
                 setTimeout((function (j, k) {
                     return function () {
                         if (mazeBase[j + 1] && mazeBase[j + 1][k] === 0) {
-                            console.log(111);
                             var p = s.path(Snap.format("M{x},{y}L{x},{y}",
                                 {
                                     x: (k + 0.5) * CELL,
@@ -67,7 +66,6 @@ function createGraph(mazeBase, svg) {
                             c.animate({"r": CELL / 3}, STEP_TIME);
                         }
                         if (mazeBase[j][k + 1] === 0) {
-                            console.log(111);
                             p = s.path(Snap.format("M{x},{y}L{x},{y}",
                                 {
                                     x: (k + 0.5) * CELL,

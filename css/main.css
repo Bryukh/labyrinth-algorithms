@@ -45,6 +45,15 @@ body {
     border-color: #2b95c5;
 }
 
+.code-panel {
+    background-color: #dceaf1;
+    border-color: #cecece;
+}
+
+.code-panel .panel-heading {
+    background-color: #9ad0ec;
+}
+
 @media screen and (max-width: 320px){#sidebar{display:none;}}
 @media screen and (max-width: 480px){#sidebar{display:none;}}
 @media screen and (max-width: 650px){#sidebar{display:none;}}

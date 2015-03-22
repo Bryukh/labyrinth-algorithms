@@ -8,6 +8,7 @@
 
     <script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
     <script src="js/snap.svg-min.js"></script>
+    <script src="js/page.js"></script>
 
     <!-- Bootstrap -->
     <!-- Latest compiled and minified CSS -->
@@ -16,7 +17,7 @@
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="css/vector.css">
     <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">-->
-    <!--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>-->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 </head>
 <body>
 <div class="github-fork-ribbon-wrapper left">
@@ -55,6 +56,34 @@
                 dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
                 proident, sunt in culpa qui officia deserunt mollit anim id est laborum
             </p>
+
+            <div class="panel panel-default code-panel">
+                <div class="panel-heading" role="tab">
+                    <h4 class="panel-title">
+                        <a class="collapsed " data-toggle="collapse" href="#collapse-maze2graph-code" aria-expanded="false"
+                                onclick="toggleCollapsed(this)">
+                            Show python code:
+                        </a>
+                    </h4>
+                </div>
+                <div id="collapse-maze2graph-code" class="panel-collapse collapse" role="tabpanel">
+                    <div class="panel-body">
+                        <pre><code>def maze2graph(maze):
+    height = len(maze)
+    width = len(maze[0]) if height else 0
+    graph = {(i, j): [] for j in range(width) for i in range(height) if not maze[i][j]}
+    for row, col in graph.keys():
+        if row < height - 1 and not maze[row + 1][col]:
+            graph[(row, col)].append(("S", (row + 1, col)))
+            graph[(row + 1, col)].append(("N", (row, col)))
+        if col < width - 1 and not maze[row][col + 1]:
+            graph[(row, col)].append(("E", (row, col + 1)))
+            graph[(row, col + 1)].append(("W", (row, col)))
+    return graph</code></pre>
+                    </div>
+                </div>
+            </div>
+
             <div class="board" id="maze2graph-board">
                 <div class="choose-maze center-block">
 
@@ -110,7 +139,7 @@
 <!--<script src="js/sticky.js"></script>-->
 <script src="js/labyrinth.js"></script>
 <script>
-    $.getJSON( "js/mazes.json", function(data){
+    $.getJSON("js/mazes.json", function (data) {
         var mazeNames = Object.keys(data);
         var $buttonBlock = $("#maze2graph-board").find(".choose-maze");
 
@@ -118,7 +147,7 @@
         var graphFromMazeSvg = Snap("#maze-graph");
         graphFromMazeSvg.timeouts = [];
 
-        var maze2graph = function(name){
+        var maze2graph = function (name) {
             maze2graphSvg.clear();
             graphFromMazeSvg.clear();
             for (var t = 0, l = graphFromMazeSvg.timeouts.length; t < l; t++) {
@@ -134,8 +163,8 @@
             var $button = $("<button></button>").addClass("btn btn-default choose-button").attr("type", "button");
             $button.attr("id", "maze2graph-btn-" + mazeNames[i]);
             $button.text(mazeNames[i]);
-            $button.click(function(n){
-                return function() {
+            $button.click(function (n) {
+                return function () {
                     maze2graph(n);
                 }
             }(mazeNames[i]));
@@ -144,10 +173,7 @@
         maze2graph(mazeNames[0]);
 
 
-
     });
-
-
 
 
 </script>

@@ -54,6 +54,12 @@ body {
     background-color: #9ad0ec;
 }
 
+pre {
+  overflow: auto;
+  word-wrap: normal;
+  white-space: pre;
+}
+
 @media screen and (max-width: 320px){#sidebar{display:none;}}
 @media screen and (max-width: 480px){#sidebar{display:none;}}
 @media screen and (max-width: 650px){#sidebar{display:none;}}

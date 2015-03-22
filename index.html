@@ -55,7 +55,10 @@
                 dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
                 proident, sunt in culpa qui officia deserunt mollit anim id est laborum
             </p>
-            <div class="board">
+            <div class="board" id="maze2graph-board">
+                <div class="choose-maze center-block">
+
+                </div>
                 <svg id="maze-convert"></svg>
                 <svg id="maze-graph"></svg>
             </div>
@@ -108,9 +111,40 @@
 <script src="js/labyrinth.js"></script>
 <script>
     $.getJSON( "js/mazes.json", function(data){
-        var maze = drawMaze(data["Example"], "#maze-convert");
-        recolorMaze(maze);
-        createGraph(data["Example"], "#maze-graph");
+        var mazeNames = Object.keys(data);
+        var $buttonBlock = $("#maze2graph-board").find(".choose-maze");
+
+        var maze2graphSvg = Snap("#maze-convert");
+        var graphFromMazeSvg = Snap("#maze-graph");
+        graphFromMazeSvg.timeouts = [];
+
+        var maze2graph = function(name){
+            maze2graphSvg.clear();
+            graphFromMazeSvg.clear();
+            for (var t = 0, l = graphFromMazeSvg.timeouts.length; t < l; t++) {
+                clearTimeout(graphFromMazeSvg.timeouts[t]);
+            }
+            var maze = drawMaze(data[name], maze2graphSvg);
+            recolorMaze(maze);
+            createGraph(data[name], graphFromMazeSvg);
+        };
+
+
+        for (var i = 0; i < mazeNames.length; i++) {
+            var $button = $("<button></button>").addClass("btn btn-default choose-button").attr("type", "button");
+            $button.attr("id", "maze2graph-btn-" + mazeNames[i]);
+            $button.text(mazeNames[i]);
+            $button.click(function(n){
+                return function() {
+                    maze2graph(n);
+                }
+            }(mazeNames[i]));
+            $buttonBlock.append($button);
+        }
+        maze2graph(mazeNames[0]);
+
+
+
     });
 
 

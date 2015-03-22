@@ -34,6 +34,17 @@ body {
     text-align: center;
 }
 
+.choose-maze {
+    text-align: center;
+}
+
+.choose-button {
+    min-width: 20%;
+    margin: 5px;
+    background-color: #9ad0ec;
+    border-color: #2b95c5;
+}
+
 @media screen and (max-width: 320px){#sidebar{display:none;}}
 @media screen and (max-width: 480px){#sidebar{display:none;}}
 @media screen and (max-width: 650px){#sidebar{display:none;}}

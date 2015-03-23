@@ -61,7 +61,7 @@
                 <div class="panel-heading" role="tab">
                     <h4 class="panel-title">
                         <a class="collapsed " data-toggle="collapse" href="#collapse-maze2graph-code" aria-expanded="false"
-                                onclick="toggleCollapsed(this)">
+                           onclick="toggleCollapsed(this)">
                             Show python code:
                         </a>
                     </h4>
@@ -100,6 +100,14 @@
                 dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
                 proident, sunt in culpa qui officia deserunt mollit anim id est laborum
             </p>
+
+            <div class="board" id="maze-bfs-board">
+                <div class="choose-maze center-block">
+
+                </div>
+                <svg id="maze-bfs"></svg>
+            </div>
+
 
             <h1 id="dfs">Depth First Search</h1>
 
@@ -141,11 +149,14 @@
 <script>
     $.getJSON("js/mazes.json", function (data) {
         var mazeNames = Object.keys(data);
-        var $buttonBlock = $("#maze2graph-board").find(".choose-maze");
+        var $buttonBlockGraph = $("#maze2graph-board").find(".choose-maze");
+        var $buttonBlockBfs = $("#maze-bfs-board").find(".choose-maze");
 
         var maze2graphSvg = Snap("#maze-convert");
         var graphFromMazeSvg = Snap("#maze-graph");
         graphFromMazeSvg.timeouts = [];
+
+        var bfsMazeSvg = Snap("#maze-bfs");
 
         var maze2graph = function (name) {
             maze2graphSvg.clear();
@@ -158,20 +169,37 @@
             createGraph(data[name], graphFromMazeSvg);
         };
 
+        var bfsMaze = function (name) {
+            bfsMazeSvg.clear();
+            drawMaze(data[name], bfsMazeSvg);
+        };
 
-        for (var i = 0; i < mazeNames.length; i++) {
-            var $button = $("<button></button>").addClass("btn btn-default choose-button").attr("type", "button");
-            $button.attr("id", "maze2graph-btn-" + mazeNames[i]);
-            $button.text(mazeNames[i]);
-            $button.click(function (n) {
-                return function () {
-                    maze2graph(n);
-                }
-            }(mazeNames[i]));
-            $buttonBlock.append($button);
-        }
+        var addButtons = function ($block, mazeFunc, preId) {
+            for (var i = 0; i < mazeNames.length; i++) {
+                var $button = $("<button></button>").addClass("btn btn-default choose-button").attr("type", "button");
+                $button.attr("id", preId + mazeNames[i]);
+                $button.text(mazeNames[i]);
+                $button.click(function (n) {
+                    return function () {
+                        mazeFunc(n);
+                    }
+                }(mazeNames[i]));
+                $block.append($button);
+            }
+        };
+
+        addButtons($buttonBlockGraph, maze2graph, "maze2graph-btn-");
+        addButtons($buttonBlockBfs, bfsMaze, "maze-bfs-btn-");
+
+
+
+
+
+
+
+
         maze2graph(mazeNames[0]);
-
+        bfsMaze(mazeNames[0]);
 
     });
 

@@ -118,6 +118,13 @@
                 proident, sunt in culpa qui officia deserunt mollit anim id est laborum
             </p>
 
+            <div class="board" id="maze-dfs-board">
+                <div class="choose-maze center-block">
+
+                </div>
+                <svg id="maze-dfs"></svg>
+            </div>
+
             <h1 id="astar">A* Search</h1>
 
             <p>
@@ -151,6 +158,7 @@
         var mazeNames = Object.keys(data);
         var $buttonBlockGraph = $("#maze2graph-board").find(".choose-maze");
         var $buttonBlockBfs = $("#maze-bfs-board").find(".choose-maze");
+        var $buttonBlockDfs = $("#maze-dfs-board").find(".choose-maze");
 
         var maze2graphSvg = Snap("#maze-convert");
         var graphFromMazeSvg = Snap("#maze-graph");
@@ -159,6 +167,11 @@
 
         var bfsMazeSvg = Snap("#maze-bfs");
         bfsMazeSvg.timeouts = [];
+
+        var dfsMazeSvg = Snap("#maze-dfs");
+        dfsMazeSvg.timeouts = [];
+
+
 
         var maze2graph = function (name) {
             maze2graphSvg.clear();
@@ -177,8 +190,19 @@
                 clearTimeout(bfsMazeSvg.timeouts[t]);
             }
             var BFSmazeEls = drawMaze(data[name], bfsMazeSvg);
-            animateBFSMaze(bfsMazeSvg, data[name], BFSmazeEls);
+            animateXFSMaze(bfsMazeSvg, data[name], BFSmazeEls);
         };
+
+        var dfsMaze = function (name) {
+            dfsMazeSvg.clear();
+            for (var t = 0, l = dfsMazeSvg.timeouts.length; t < l; t++) {
+                clearTimeout(dfsMazeSvg.timeouts[t]);
+            }
+            var DFSmazeEls = drawMaze(data[name], dfsMazeSvg);
+            animateXFSMaze(dfsMazeSvg, data[name], DFSmazeEls, true);
+        };
+
+
 
         var addButtons = function ($block, mazeFunc, preId) {
             for (var i = 0; i < mazeNames.length; i++) {
@@ -196,6 +220,7 @@
 
         addButtons($buttonBlockGraph, maze2graph, "maze2graph-btn-");
         addButtons($buttonBlockBfs, bfsMaze, "maze-bfs-btn-");
+        addButtons($buttonBlockDfs, dfsMaze, "maze-dfs-btn-");
 
 
 
@@ -206,6 +231,7 @@
 
         maze2graph(mazeNames[0]);
         bfsMaze(mazeNames[0]);
+        dfsMaze(mazeNames[0]);
 
     });
 

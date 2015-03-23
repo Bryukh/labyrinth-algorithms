@@ -2,9 +2,9 @@ var CELL = 30;
 var STEP_TIME = 200;
 var DIRECTIONS = [
     [-1, 0],
-    [0, 1],
+    [0, -1],
     [1, 0],
-    [0, -1]
+    [0, 1]
 ];
 
 function drawMaze(mazeBase, svg) {
@@ -99,9 +99,10 @@ function createGraph(mazeBase, svg) {
     }
 }
 
-function animateBFSMaze(svg, maze, mazeElements) {
+function animateXFSMaze(svg, maze, mazeElements, dfs) {
     var count = 0;
     var step = 1;
+    dfs = dfs || false;
 
     function markFuture(el, coor, numb) {
         el.addClass("future");
@@ -123,7 +124,12 @@ function animateBFSMaze(svg, maze, mazeElements) {
     var queued = ["1-1"];
     markFuture(mazeElements[1][1], [1, 1], count);
     while (queue.length > 0) {
-        var node = queue.shift();
+        if (dfs) {
+            var node = queue.pop();
+        }
+        else {
+            node = queue.shift();
+        }
         var nodeName = node[0] + "-" + node[1];
         if (visited.indexOf(nodeName) !== -1) {
             continue;

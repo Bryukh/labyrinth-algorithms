@@ -13,6 +13,16 @@ svg {
     fill: #dceaf1; }
   svg .empty.recolor {
     fill: #ff935b; }
+  svg .empty.future {
+    fill: #ff935b; }
+  svg .empty.future.visited {
+    fill: #ca4701; }
+  svg .future-number {
+    font-family: Roboto, Arial, "Open Sans", sans-serif;
+    stroke: #a83901;
+    fill: #a83901;
+    dominant-baseline: central;
+    text-anchor: middle; }
   svg .graph-node {
     fill: #9ad0ec; }
   svg .graph-edge {

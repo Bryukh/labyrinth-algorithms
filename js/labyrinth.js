@@ -1,5 +1,11 @@
 var CELL = 30;
 var STEP_TIME = 200;
+var DIRECTIONS = [
+    [-1, 0],
+    [0, 1],
+    [1, 0],
+    [0, -1]
+];
 
 function drawMaze(mazeBase, svg) {
     var height = mazeBase.length,
@@ -90,5 +96,75 @@ function createGraph(mazeBase, svg) {
                 svg.timeouts.push(t);
             }
         }
+    }
+}
+
+function animateBFSMaze(svg, maze, mazeElements) {
+    var count = 0;
+    var step = 1;
+
+    function markFuture(el, coor, numb) {
+        el.addClass("future");
+        var countText = svg.text((coor[1] + 0.5) * CELL, (coor[0] + 0.5) * CELL, String(numb));
+        el.inText = countText;
+        countText.addClass("future-number");
+        countText.attr("font-size", CELL * 0.7);
+    }
+
+    function markVisited(el) {
+        el.addClass("visited");
+        el.inText.remove();
+
+    }
+
+
+    var queue = [[1, 1]];
+    var visited = [];
+    var queued = ["1-1"];
+    markFuture(mazeElements[1][1], [1, 1], count);
+    while (queue.length > 0) {
+        var node = queue.shift();
+        var nodeName = node[0] + "-" + node[1];
+        if (visited.indexOf(nodeName) !== -1) {
+            continue;
+        }
+        if (nodeName === "10-10") {
+            svg.timeouts.push(setTimeout(
+                function () {
+                    markVisited(mazeElements[10][10])
+                }, step * STEP_TIME));
+            break;
+        }
+
+        for (var k = 0; k < DIRECTIONS.length; k++) {
+            var rowShift = DIRECTIONS[k][0];
+            var colShift = DIRECTIONS[k][1];
+            var newCoor = [node[0] + rowShift, node[1] + colShift];
+            var newName = newCoor[0] + "-" + newCoor[1];
+            if (visited.indexOf(newName) === -1 &&
+                queued.indexOf(newName) === -1 &&
+                maze[newCoor[0]][newCoor[1]] === 0) {
+                count++;
+                queue.push(newCoor);
+                svg.timeouts.push(setTimeout(function (el, coor, n) {
+
+                    return function () {
+                        markFuture(el, coor, n);
+                    }
+                }(mazeElements[newCoor[0]][newCoor[1]], newCoor, count), step * STEP_TIME));
+                step++;
+                queued.push(newName);
+            }
+        }
+
+        svg.timeouts.push(setTimeout(
+            function (element) {
+                return function () {
+                    markVisited(element)
+                }
+            }(mazeElements[node[0]][node[1]]), step * STEP_TIME
+        ));
+        step++;
+
     }
 }

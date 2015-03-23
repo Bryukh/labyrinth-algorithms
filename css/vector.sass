@@ -1,3 +1,5 @@
+$main-fonts: Roboto, Arial, 'Open Sans', sans-serif
+
 $checkio-color-blue4: #115d81
 $checkio-color-blue3: #2b95c5
 $checkio-color-blue2: #9ad0ec
@@ -35,9 +37,25 @@ svg
     .empty.recolor
         fill: $checkio-color-orange1
 
+    .empty.future
+        fill: $checkio-color-orange1
+
+    .empty.future.visited
+        fill: $checkio-color-orange3
+
+
+    .future-number
+        font-family: $main-fonts
+        stroke: $checkio-color-orange4
+        fill: $checkio-color-orange4
+        dominant-baseline: central
+        text-anchor: middle
+
+
     .graph-node
         fill: $checkio-color-blue2
 
     .graph-edge
         stroke: $checkio-color-blue4
         stroke-width: 2px
+

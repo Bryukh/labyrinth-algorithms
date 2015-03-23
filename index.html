@@ -156,7 +156,9 @@
         var graphFromMazeSvg = Snap("#maze-graph");
         graphFromMazeSvg.timeouts = [];
 
+
         var bfsMazeSvg = Snap("#maze-bfs");
+        bfsMazeSvg.timeouts = [];
 
         var maze2graph = function (name) {
             maze2graphSvg.clear();
@@ -171,7 +173,11 @@
 
         var bfsMaze = function (name) {
             bfsMazeSvg.clear();
-            drawMaze(data[name], bfsMazeSvg);
+            for (var t = 0, l = bfsMazeSvg.timeouts.length; t < l; t++) {
+                clearTimeout(bfsMazeSvg.timeouts[t]);
+            }
+            var BFSmazeEls = drawMaze(data[name], bfsMazeSvg);
+            animateBFSMaze(bfsMazeSvg, data[name], BFSmazeEls);
         };
 
         var addButtons = function ($block, mazeFunc, preId) {

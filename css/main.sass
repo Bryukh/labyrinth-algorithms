@@ -1,0 +1,87 @@
+$main-fonts: Roboto, Arial, 'Open Sans', sans-serif
+
+$checkio-color-blue4: #115d81
+$checkio-color-blue3: #2b95c5
+$checkio-color-blue2: #9ad0ec
+$checkio-color-blue1: #dceaf1
+
+$checkio-color-orange4: #a83901
+$checkio-color-orange3: #ca4701
+$checkio-color-orange2: #fa5e09
+$checkio-color-orange1: #ff935b
+
+$checkio-color-grey4: #000000
+$checkio-color-grey3: #373737
+$checkio-color-grey2: #7e7e7e
+$checkio-color-grey1: #cecece
+
+body
+
+    font-family: $main-fonts
+    background-color: $checkio-color-blue1
+
+#header
+    background-color: $checkio-color-blue2
+    color: $checkio-color-blue4
+    margin-top: 0
+    padding-top: 40px
+
+    p
+        font-size: large
+
+.github-fork-ribbon
+    background-color: $checkio-color-blue4
+
+/*#sidebar {*/
+    /*padding-left: 20px;*/
+    /*position: fixed;*/
+/*}*/
+
+
+#sidebar
+    li
+        font-size: medium
+        padding-top: 5px
+        color: $checkio-color-blue4
+
+.board
+    text-align: center
+
+.choose-maze
+    text-align: center
+
+.choose-button
+    min-width: 20%
+    margin: 5px
+    background-color: $checkio-color-blue2
+    border-color: $checkio-color-blue3
+
+.code-panel
+    background-color: $checkio-color-blue1
+    border-color: $checkio-color-grey1
+
+    .panel-heading
+        background-color: $checkio-color-blue2
+
+pre
+    overflow: auto
+    word-wrap: normal
+    white-space: pre
+
+@media screen and (max-width: 320px)
+    #sidebar
+        display: none
+
+@media screen and (max-width: 650px)
+
+#sidebar
+    display: none
+
+@media screen and (max-width: 980px)
+
+#sidebar
+    display: none
+
+@media screen and (max-width: 480px)
+    #sidebar
+        display: none

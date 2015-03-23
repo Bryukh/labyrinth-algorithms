@@ -1,0 +1,43 @@
+$checkio-color-blue4: #115d81
+$checkio-color-blue3: #2b95c5
+$checkio-color-blue2: #9ad0ec
+$checkio-color-blue1: #dceaf1
+
+$checkio-color-orange4: #a83901
+$checkio-color-orange3: #ca4701
+$checkio-color-orange2: #fa5e09
+$checkio-color-orange1: #ff935b
+
+$checkio-color-grey4: #000000
+$checkio-color-grey3: #373737
+$checkio-color-grey2: #7e7e7e
+$checkio-color-grey1: #cecece
+
+svg
+
+    padding: 10px
+    box-sizing: content-box
+    -moz-box-sizing: content-box
+
+    .cell
+        stroke: $checkio-color-blue4
+        stroke-width: 2px
+
+    .wall
+        fill: $checkio-color-blue3
+
+    .wall.recolor
+        fill: $checkio-color-orange3
+
+    .empty
+        fill: $checkio-color-blue1
+
+    .empty.recolor
+        fill: $checkio-color-orange1
+
+    .graph-node
+        fill: $checkio-color-blue2
+
+    .graph-edge
+        stroke: $checkio-color-blue4
+        stroke-width: 2px

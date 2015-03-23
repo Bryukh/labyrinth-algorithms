@@ -1,36 +1,22 @@
-svg .cell {
-    stroke: #115d81;
-    stroke-width: 2px;
-}
-
-svg .wall {
-    fill: #2b95c5;
-}
-
-svg .empty {
-    fill: #dceaf1;
-}
-
-svg .wall.recolor {
-    fill: #ca4701;
-}
-
-svg .empty.recolor {
-    fill: #ff935b;
-}
-
-
-svg .graph-node {
-    fill: #9ad0ec;
-}
-
-svg .graph-edge {
-    stroke: #115d81;
-    stroke-width: 2px;
-}
-
 svg {
-    padding: 10px;
-    box-sizing: content-box;
-    -moz-box-sizing: content-box;
-}
+  padding: 10px;
+  box-sizing: content-box;
+  -moz-box-sizing: content-box; }
+  svg .cell {
+    stroke: #115d81;
+    stroke-width: 2px; }
+  svg .wall {
+    fill: #2b95c5; }
+  svg .wall.recolor {
+    fill: #ca4701; }
+  svg .empty {
+    fill: #dceaf1; }
+  svg .empty.recolor {
+    fill: #ff935b; }
+  svg .graph-node {
+    fill: #9ad0ec; }
+  svg .graph-edge {
+    stroke: #115d81;
+    stroke-width: 2px; }
+
+/*# sourceMappingURL=vector.css.map */

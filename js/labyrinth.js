@@ -1,5 +1,5 @@
 var CELL = 30;
-var STEP_TIME = 200;
+var STEP_TIME = 100;
 var DIRECTIONS = [
     [-1, 0],
     [0, -1],
@@ -119,18 +119,21 @@ function animateXFSMaze(svg, maze, mazeElements, dfs) {
     }
 
 
-    var queue = [[1, 1]];
+    var queue = [[[1, 1], []]];
     var visited = [];
     var queued = ["1-1"];
     markFuture(mazeElements[1][1], [1, 1], count);
     while (queue.length > 0) {
         if (dfs) {
-            var node = queue.pop();
+            var taken = queue.pop();
         }
         else {
-            node = queue.shift();
+            taken = queue.shift();
         }
+        var node = taken[0];
+        var path = taken[1];
         var nodeName = node[0] + "-" + node[1];
+        path.push(nodeName);
         if (visited.indexOf(nodeName) !== -1) {
             continue;
         }
@@ -138,7 +141,16 @@ function animateXFSMaze(svg, maze, mazeElements, dfs) {
             svg.timeouts.push(setTimeout(
                 function () {
                     markVisited(mazeElements[10][10])
-                }, step * STEP_TIME));
+                }, step++ * STEP_TIME));
+            for (var p = 0; p < path.length; p++) {
+                svg.timeouts.push(setTimeout(function (strCoor) {
+
+                    return function () {
+                        var coor = strCoor.split("-");
+                        mazeElements[Number(coor[0])][Number(coor[1])].addClass("path");
+                    }
+                }(path[p]), step++ * STEP_TIME));
+            }
             break;
         }
 
@@ -151,14 +163,13 @@ function animateXFSMaze(svg, maze, mazeElements, dfs) {
                 queued.indexOf(newName) === -1 &&
                 maze[newCoor[0]][newCoor[1]] === 0) {
                 count++;
-                queue.push(newCoor);
+                queue.push([newCoor, path.slice()]);
                 svg.timeouts.push(setTimeout(function (el, coor, n) {
 
                     return function () {
                         markFuture(el, coor, n);
                     }
-                }(mazeElements[newCoor[0]][newCoor[1]], newCoor, count), step * STEP_TIME));
-                step++;
+                }(mazeElements[newCoor[0]][newCoor[1]], newCoor, count), step++ * STEP_TIME));
                 queued.push(newName);
             }
         }

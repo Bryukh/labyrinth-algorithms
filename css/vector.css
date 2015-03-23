@@ -16,6 +16,8 @@ svg {
   svg .empty.future {
     fill: #ff935b; }
   svg .empty.future.visited {
+    fill: #7e7e7e; }
+  svg .empty.future.visited.path {
     fill: #ca4701; }
   svg .future-number {
     font-family: Roboto, Arial, "Open Sans", sans-serif;

@@ -99,10 +99,10 @@ function createGraph(mazeBase, svg) {
     }
 }
 
-function animateXFSMaze(svg, maze, mazeElements, dfs) {
+function animateXFSMaze(svg, maze, mazeElements, algorithm) {
     var count = 0;
     var step = 1;
-    dfs = dfs || false;
+    algorithm = algorithm || "bfs";
 
     function markFuture(el, coor, numb) {
         el.addClass("future");
@@ -119,19 +119,29 @@ function animateXFSMaze(svg, maze, mazeElements, dfs) {
     }
 
 
-    var queue = [[[1, 1], []]];
+    var queue = [[0, [1, 1], []]];
     var visited = [];
     var queued = ["1-1"];
     markFuture(mazeElements[1][1], [1, 1], count);
     while (queue.length > 0) {
-        if (dfs) {
+        if (algorithm === "dfs") {
             var taken = queue.pop();
         }
-        else {
+        else if (algorithm === "bfs") {
             taken = queue.shift();
         }
-        var node = taken[0];
-        var path = taken[1];
+        else if (algorithm === "astar"){
+            var minIndex = 0;
+            for (var i = 0, l = queue.length; i < l; i++) {
+                if (queue[i][0] < queue[minIndex][0]) {
+                    minIndex = i;
+                }
+            }
+            taken = queue.splice(minIndex, 1)[0];
+        }
+        var weight = taken[0];
+        var node = taken[1];
+        var path = taken[2];
         var nodeName = node[0] + "-" + node[1];
         path.push(nodeName);
         if (visited.indexOf(nodeName) !== -1) {
@@ -163,7 +173,13 @@ function animateXFSMaze(svg, maze, mazeElements, dfs) {
                 queued.indexOf(newName) === -1 &&
                 maze[newCoor[0]][newCoor[1]] === 0) {
                 count++;
-                queue.push([newCoor, path.slice()]);
+                if (algorithm === "astar") {
+                    var remaining = maze.length - 2 - newCoor[0] + maze[0].length - 2 - newCoor[0];
+                }
+                else {
+                    remaining = 0;
+                }
+                queue.push([weight + 1 + remaining, newCoor, path.slice()]);
                 svg.timeouts.push(setTimeout(function (el, coor, n) {
 
                     return function () {

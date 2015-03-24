@@ -133,6 +133,12 @@
                 dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
                 proident, sunt in culpa qui officia deserunt mollit anim id est laborum
             </p>
+            <div class="board" id="maze-astar-board">
+                <div class="choose-maze center-block">
+
+                </div>
+                <svg id="maze-astar"></svg>
+            </div>
 
         </div>
         <div class="col-md-3">
@@ -159,6 +165,7 @@
         var $buttonBlockGraph = $("#maze2graph-board").find(".choose-maze");
         var $buttonBlockBfs = $("#maze-bfs-board").find(".choose-maze");
         var $buttonBlockDfs = $("#maze-dfs-board").find(".choose-maze");
+        var $buttonBlockAstar = $("#maze-astar-board").find(".choose-maze");
 
         var maze2graphSvg = Snap("#maze-convert");
         var graphFromMazeSvg = Snap("#maze-graph");
@@ -170,6 +177,9 @@
 
         var dfsMazeSvg = Snap("#maze-dfs");
         dfsMazeSvg.timeouts = [];
+
+        var astarMazeSvg = Snap("#maze-astar");
+        astarMazeSvg.timeouts = [];
 
 
 
@@ -199,8 +209,19 @@
                 clearTimeout(dfsMazeSvg.timeouts[t]);
             }
             var DFSmazeEls = drawMaze(data[name], dfsMazeSvg);
-            animateXFSMaze(dfsMazeSvg, data[name], DFSmazeEls, true);
+            animateXFSMaze(dfsMazeSvg, data[name], DFSmazeEls, "dfs");
         };
+
+        var astarMaze = function (name) {
+            astarMazeSvg.clear();
+            for (var t = 0, l = astarMazeSvg.timeouts.length; t < l; t++) {
+                clearTimeout(astarMazeSvg.timeouts[t]);
+            }
+            var AstarmazeEls = drawMaze(data[name], astarMazeSvg);
+            animateXFSMaze(astarMazeSvg, data[name], AstarmazeEls, "astar");
+        };
+
+
 
 
 
@@ -221,6 +242,7 @@
         addButtons($buttonBlockGraph, maze2graph, "maze2graph-btn-");
         addButtons($buttonBlockBfs, bfsMaze, "maze-bfs-btn-");
         addButtons($buttonBlockDfs, dfsMaze, "maze-dfs-btn-");
+        addButtons($buttonBlockAstar, astarMaze, "maze-astar-btn-");
 
 
 
@@ -232,6 +254,7 @@
         maze2graph(mazeNames[0]);
         bfsMaze(mazeNames[0]);
         dfsMaze(mazeNames[0]);
+        astarMaze(mazeNames[0]);
 
     });
 

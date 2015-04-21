@@ -12,19 +12,41 @@ def maze2graph(maze):
     return graph
 
 
+from collections import deque
+
+
+def find_path_bfs(maze):
+    start, goal = (1, 1), (len(maze) - 2, len(maze[0]) - 2)
+    queue = deque([("", start)])
+    visited = set()
+    graph = maze2graph(maze)
+    while queue:
+        path, current = queue.popleft()
+        # path, current = queue.pop()
+        if current == goal:
+            return path
+        if current in visited:
+            continue
+        visited.add(current)
+        for direction, neighbour in graph[current]:
+            queue.append((path + direction, neighbour))
+    return "NO WAY!"
+
+
 MAZE = [
-           [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-           [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-           [1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1],
-           [1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-           [1, 0, 1, 0, 1, 1, 1, 1, 1, 1, 0, 1],
-           [1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 1],
-           [1, 0, 0, 0, 1, 1, 0, 1, 1, 1, 0, 1],
-           [1, 0, 1, 0, 0, 0, 0, 1, 0, 1, 1, 1],
-           [1, 0, 1, 1, 0, 1, 0, 0, 0, 0, 0, 1],
-           [1, 0, 1, 0, 0, 1, 1, 1, 1, 1, 0, 1],
-           [1, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1],
-           [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
-       ]
+    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+    [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+    [1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1],
+    [1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+    [1, 0, 1, 0, 1, 1, 1, 1, 1, 1, 0, 1],
+    [1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 1],
+    [1, 0, 0, 0, 1, 1, 0, 1, 1, 1, 0, 1],
+    [1, 0, 1, 0, 0, 0, 0, 1, 0, 1, 1, 1],
+    [1, 0, 1, 1, 0, 1, 0, 0, 0, 0, 0, 1],
+    [1, 0, 1, 0, 0, 1, 1, 1, 1, 1, 0, 1],
+    [1, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1],
+    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+]
 
 print(maze2graph(MAZE))
+print(find_path_bfs(MAZE))

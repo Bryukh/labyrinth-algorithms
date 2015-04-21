@@ -30,7 +30,7 @@
         <h1>Labyrinth Algorithms</h1>
 
         <p class="col-md-6">
-            How to find a path between two points in the maze. We will take a closer look at the
+            How to find a path between two points in the maze. Base Algorithm review for
             <a href="http://www.checkio.org/mission/open-labyrinth/share/574bd1ded68c9705c5d6f07c6206be12/">"Open Labyrinth"</a>
             <a href="http://www.checkio.org/">Checkio</a> mission.
         </p>
@@ -42,20 +42,50 @@
             <h1 id="introduce">Introduce</h1>
 
             <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
-                dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-                proident, sunt in culpa qui officia deserunt mollit anim id est laborum
+                Early I've written an <a href="http://www.checkio.org/blog/find-path/">article</a>
+                about solutions and algorithms for mission "Open Labyrinth" for CheckiO blog.
+                But readers asked about more schemas and interactive explanation.
+                And I made this page with labyrinth algorithm explanations.
+                You can see how BFS, DFS or A\* queue or stack and how they find a path for
+                various labyrinths.
+            </p>
+            <p>
+                All examples are based on original
+                <a href="http://www.checkio.org/mission/open-labyrinth/share/574bd1ded68c9705c5d6f07c6206be12/">"Open Labyrinth"</a> mission.
+                In this mission you are given the map of a maze,
+                and your task is to find a path from one corner to another.
+                The maze can be represented as a graph where empty cells are nodes and adjacent cells are connected.
+                Because we don't need find the shortest path, we can use various graph-traversal algorithms.
             </p>
 
             <h1 id="maze2graph">Maze to Graph</h1>
 
             <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
-                dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-                proident, sunt in culpa qui officia deserunt mollit anim id est laborum
+                First I would like to change a representation for a maze.
+                This part is not necessary and we can detect "neighbours" while search path.
+                But for newbies it will be simpler to decompose the problem and first convert
+                a maze as 2D array to a graph as a dictionary.
             </p>
+
+            <p>
+                Our graph will be represented as a dictionary, where keys are node coordinates and
+                values are neighbour node coordinates and direction how to get in it.
+                Node coordinates are represented as a tuple with two numbers.
+                This way each cell has unique name.
+                Directions will be useful to write route when we will search a path inside the maze.
+            </p>
+
+            <p>
+                First we collect all empty cells and write them as a keys.
+                Then gather information about neighbours. Of course we can do this in one iteration through
+                a matrix with defaultdict, for example, but I want to show it with simpler for python newbie way.
+                For each cell we look ar "south" and "east" neighbours only and add them as "connections".
+                And with these "S" and "E" directions we add reverse "N" and "W" connection for neighbour cells.
+                This way we will skip duplicate operations.
+                Don't forget to check edge cases. And as result we will get our maze to graph convertor.
+                Below you can see simple code for it.
+            </p>
+
 
             <div class="panel panel-default code-panel">
                 <div class="panel-heading" role="tab">
@@ -83,6 +113,11 @@
                     </div>
                 </div>
             </div>
+            <p>
+                In these animation you can see how the recent function check neighbours.
+                But it's little difficult from Python realisation because py dictionary are unordered.
+                But this animation should show you how maze change to "skeleton" form.
+            </p>
 
             <div class="board" id="maze2graph-board">
                 <div class="choose-maze center-block">
@@ -217,8 +252,8 @@
             for (var t = 0, l = astarMazeSvg.timeouts.length; t < l; t++) {
                 clearTimeout(astarMazeSvg.timeouts[t]);
             }
-            var AstarmazeEls = drawMaze(data[name], astarMazeSvg);
-            animateXFSMaze(astarMazeSvg, data[name], AstarmazeEls, "astar");
+            var AstarMazeEls = drawMaze(data[name], astarMazeSvg);
+            animateXFSMaze(astarMazeSvg, data[name], AstarMazeEls, "astar");
         };
 
 

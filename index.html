@@ -49,9 +49,11 @@
                 You can see how BFS, DFS or A\* queue or stack and how they find a path for
                 various labyrinths.
             </p>
+
             <p>
                 All examples are based on original
-                <a href="http://www.checkio.org/mission/open-labyrinth/share/574bd1ded68c9705c5d6f07c6206be12/">"Open Labyrinth"</a> mission.
+                <a href="http://www.checkio.org/mission/open-labyrinth/share/574bd1ded68c9705c5d6f07c6206be12/">"Open Labyrinth"</a>
+                mission.
                 In this mission you are given the map of a maze,
                 and your task is to find a path from one corner to another.
                 The maze can be represented as a graph where empty cells are nodes and adjacent cells are connected.
@@ -130,10 +132,68 @@
             <h1 id="bfs">Breadth First Search</h1>
 
             <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
-                dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-                proident, sunt in culpa qui officia deserunt mollit anim id est laborum
+                Breadth-first search (BFS) is an algorithm for traversing or searching a path in a graph.
+                It starts at some arbitrary node of the graph and explores the neighbor nodes first,
+                before moving to the next level neighbors. For BFS we are using queue to store nodes which
+                will be exploring. This way we check the nearest nodes first.
+                For tree it looks like we look level by level and before "to down" at the next level we should
+                check all nodes in current level. For graph search it's very important to write all visited
+                nodes or we can get to a loop.
+            </p>
+
+            <p>
+
+                BFS is an optimal and it is guaranteed to find the best solution that exists.
+                Time complexity for BFS is O(|V|+|E|), where |V| is a number of nodes and
+                |E| is a number of edges in the graph.
+            </p>
+
+            <p>
+                In Python we can use "deque" as queue or simple list (but it's slower).
+                We put the initial node to the queue.
+                Then repeat the next procedure until visit the goal node or
+                visit all available nodes: take the first from the queue, check was it visited or not,
+                check is it goal, put all neighbours in the end of the queue, repeat.
+                For each step we track not only nodes, but directions and a path to the current node too.
+            </p>
+
+            <div class="panel panel-default code-panel">
+                <div class="panel-heading" role="tab">
+                    <h4 class="panel-title">
+                        <a class="collapsed " data-toggle="collapse" href="#collapse-bfs-code" aria-expanded="false"
+                           onclick="toggleCollapsed(this)">
+                            Show python code:
+                        </a>
+                    </h4>
+                </div>
+                <div id="collapse-bfs-code" class="panel-collapse collapse" role="tabpanel">
+                    <div class="panel-body">
+                        <pre>from collections import deque
+
+
+def find_path_bfs(maze):
+    start, goal = (1, 1), (len(maze) - 2, len(maze[0]) - 2)
+    queue = deque([("", start)])
+    visited = set()
+    graph = maze2graph(maze)
+    while queue:
+        path, current = queue.popleft()
+        if current == goal:
+            return path
+        if current in visited:
+            continue
+        visited.add(current)
+        for direction, neighbour in graph[current]:
+            queue.append((path + direction, neighbour))
+    return "NO WAY!"</pre>
+                    </div>
+                </div>
+            </div>
+
+            <p>
+                In the next animation you can see how BFS traverse through a maze.
+                Numbered cells are nodes in the queue (we take with the lowest number).
+                Grey cells are visited. Orange cells show the result route.
             </p>
 
             <div class="board" id="maze-bfs-board">
@@ -168,6 +228,7 @@
                 dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
                 proident, sunt in culpa qui officia deserunt mollit anim id est laborum
             </p>
+
             <div class="board" id="maze-astar-board">
                 <div class="choose-maze center-block">
 
@@ -217,7 +278,6 @@
         astarMazeSvg.timeouts = [];
 
 
-
         var maze2graph = function (name) {
             maze2graphSvg.clear();
             graphFromMazeSvg.clear();
@@ -257,9 +317,6 @@
         };
 
 
-
-
-
         var addButtons = function ($block, mazeFunc, preId) {
             for (var i = 0; i < mazeNames.length; i++) {
                 var $button = $("<button></button>").addClass("btn btn-default choose-button").attr("type", "button");
@@ -278,12 +335,6 @@
         addButtons($buttonBlockBfs, bfsMaze, "maze-bfs-btn-");
         addButtons($buttonBlockDfs, dfsMaze, "maze-dfs-btn-");
         addButtons($buttonBlockAstar, astarMaze, "maze-astar-btn-");
-
-
-
-
-
-
 
 
         maze2graph(mazeNames[0]);

@@ -67,10 +67,26 @@ In these animation you can see how the recent function check neighbours.
 But it's little difficult from Python realisation because py dictionary are unordered.
 But this animation should show you how maze change to "skeleton" form.
 
-## [Breath First Search](http://bryukh.com/labyrinth-algorithms/#bfs)
+## [Breadth First Search](http://bryukh.com/labyrinth-algorithms/#bfs)
 
+Breadth-first search (BFS) is an algorithm for traversing or searching a path in a graph.
+It starts at some arbitrary node of the graph and explores the neighbor nodes first,
+before moving to the next level neighbors. For BFS we are using queue to store nodes which
+will be exploring. This way we check the nearest nodes first. 
+For tree it looks like we look level by level and before "to down" at the next level we should
+check all nodes in current level. For graph search it's very important to write all visited
+nodes or we can get to a loop.
 
+BFS is an optimal and it is guaranteed to find the best solution that exists.
+Time complexity for BFS is O(|V|+|E|), where |V| is a number of nodes and 
+|E| is a number of edges in the graph.
 
+In Python we can use "deque" as queue or simple list (but it's slower).
+We put the initial node to the queue.
+Then repeat the next procedure until visit the goal node or
+visit all available nodes: take the first from the queue, check was it visited or not,
+check is it goal, put all neighbours in the end of the queue, repeat.
+For each step we track not only nodes, but directions and a path to the current node too.
 
 ```python
 from collections import deque
@@ -92,6 +108,10 @@ def find_path_bfs(maze):
             queue.append((path + direction, neighbour))
     return "NO WAY!"
 ```
+
+In the next animation you can see how BFS traverse throught a maze.
+Numbered cells are nodes in the queue (we take with the lowest number).
+Grey cells are visited. Orange cells show the result route. 
 
 ## [Depth First Search](http://bryukh.com/labyrinth-algorithms/#dfs)
 

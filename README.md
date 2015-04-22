@@ -150,7 +150,7 @@ def find_path_dfs(maze):
 ```
 
 In the next animation you can see how DFS traverse through a maze.
-As we can see for the empty cell DFS works well. 
+As we can see for the empty cell DFS works well, but not for "Snake and Short". 
 Numbered cells are nodes in the queue (we take with the highest number).
 Grey cells are visited. Orange cells show the result route.
 

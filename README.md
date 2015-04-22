@@ -78,7 +78,7 @@ check all nodes in current level. For graph search it's very important to write 
 nodes or we can get to a loop.
 
 BFS is an optimal and it is guaranteed to find the best solution that exists.
-Time complexity for BFS is O(|V|+|E|), where |V| is a number of nodes and 
+Time complexity for BFS (worst case) is O(|V|+|E|), where |V| is a number of nodes and 
 |E| is a number of edges in the graph.
 
 In Python we can use "deque" as queue or simple list (but it's slower).
@@ -109,11 +109,50 @@ def find_path_bfs(maze):
     return "NO WAY!"
 ```
 
-In the next animation you can see how BFS traverse throught a maze.
+In the next animation you can see how BFS traverse through a maze.
 Numbered cells are nodes in the queue (we take with the lowest number).
 Grey cells are visited. Orange cells show the result route. 
 
 ## [Depth First Search](http://bryukh.com/labyrinth-algorithms/#dfs)
+
+Depth-first search (DFS) is an algorithm similar to BFS.
+It starts at some arbitrary node of the graph as BFS, 
+but explores as far as possible along each branch.
+For DFS non-recursive implementation we are using stack instead queue as in BFS to store nodes
+which will be exploring. This way we check nodes first which were added in stack last.
+
+DFS is not an optimal and it is not guaranteed to find the best solution that exists.
+So DFS is not good choice to find a path in a maze, but it has another applications as 
+finding connected components or maze generation.
+ 
+Python code for DFS has only one difference from BFS "queue" to "stack" renaming (for readability)
+and "popleft()" to "pop()".
+
+```python
+from collections import deque
+
+
+def find_path_dfs(maze):
+    start, goal = (1, 1), (len(maze) - 2, len(maze[0]) - 2)
+    stack = deque([("", start)])
+    visited = set()
+    graph = maze2graph(maze)
+    while stack:
+        path, current = stack.pop()
+        if current == goal:
+            return path
+        if current in visited:
+            continue
+        visited.add(current)
+        for direction, neighbour in graph[current]:
+            stack.append((path + direction, neighbour))
+    return "NO WAY!"
+```
+
+In the next animation you can see how DFS traverse through a maze.
+As we can see for the empty cell DFS works well. 
+Numbered cells are nodes in the queue (we take with the highest number).
+Grey cells are visited. Orange cells show the result route.
 
 ## [A\* Search](http://bryukh.com/labyrinth-algorithms/#astar)
 

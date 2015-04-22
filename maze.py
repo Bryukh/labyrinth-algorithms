@@ -33,6 +33,22 @@ def find_path_bfs(maze):
     return "NO WAY!"
 
 
+def find_path_dfs(maze):
+    start, goal = (1, 1), (len(maze) - 2, len(maze[0]) - 2)
+    stack = deque([("", start)])
+    visited = set()
+    graph = maze2graph(maze)
+    while stack:
+        path, current = stack.pop()
+        if current == goal:
+            return path
+        if current in visited:
+            continue
+        visited.add(current)
+        for direction, neighbour in graph[current]:
+            stack.append((path + direction, neighbour))
+    return "NO WAY!"
+
 MAZE = [
     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
     [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],

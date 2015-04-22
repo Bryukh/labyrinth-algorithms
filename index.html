@@ -207,10 +207,61 @@ def find_path_bfs(maze):
             <h1 id="dfs">Depth First Search</h1>
 
             <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
-                dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-                proident, sunt in culpa qui officia deserunt mollit anim id est laborum
+                Depth-first search (DFS) is an algorithm similar to BFS.
+                It starts at some arbitrary node of the graph as BFS,
+                but explores as far as possible along each branch.
+                For DFS non-recursive implementation we are using stack instead queue as in BFS to store nodes
+                which will be exploring. This way we check nodes first which were added in stack last.
+            </p>
+
+            <p>
+                DFS is not an optimal and it is not guaranteed to find the best solution that exists.
+                So DFS is not good choice to find a path in a maze, but it has another applications as
+                finding connected components or maze generation.
+            </p>
+
+            <p>
+                Python code for DFS has only one difference from BFS "queue" to "stack" renaming (for readability)
+                and "popleft()" to "pop()".
+            </p>
+
+            <div class="panel panel-default code-panel">
+                <div class="panel-heading" role="tab">
+                    <h4 class="panel-title">
+                        <a class="collapsed " data-toggle="collapse" href="#collapse-dfs-code" aria-expanded="false"
+                           onclick="toggleCollapsed(this)">
+                            Show python code:
+                        </a>
+                    </h4>
+                </div>
+                <div id="collapse-dfs-code" class="panel-collapse collapse" role="tabpanel">
+                    <div class="panel-body">
+                        <pre>from collections import deque
+
+
+def find_path_dfs(maze):
+    start, goal = (1, 1), (len(maze) - 2, len(maze[0]) - 2)
+    stack = deque([("", start)])
+    visited = set()
+    graph = maze2graph(maze)
+    while stack:
+        path, current = stack.pop()
+        if current == goal:
+            return path
+        if current in visited:
+            continue
+        visited.add(current)
+        for direction, neighbour in graph[current]:
+            stack.append((path + direction, neighbour))
+    return "NO WAY!"</pre>
+                    </div>
+                </div>
+            </div>
+            <p>
+                In the next animation you can see how DFS traverse through a maze.
+                As we can see for the empty cell DFS works well.
+                Numbered cells are nodes in the queue (we take with the highest number).
+                Grey cells are visited. Orange cells show the result route.
             </p>
 
             <div class="board" id="maze-dfs-board">

@@ -46,7 +46,7 @@
                 about solutions and algorithms for mission "Open Labyrinth" for CheckiO blog.
                 But readers asked about more schemas and interactive explanation.
                 And I made this page with labyrinth algorithm explanations.
-                You can see how BFS, DFS or A\* queue or stack and how they find a path for
+                You can see how BFS, DFS or A* queue or stack and how they find a path for
                 various labyrinths.
             </p>
 
@@ -274,10 +274,67 @@ def find_path_dfs(maze):
             <h1 id="astar">A* Search</h1>
 
             <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
-                dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-                proident, sunt in culpa qui officia deserunt mollit anim id est laborum
+                A* widely used pathfinding algorithm and it's an extension of Edsger Dijkstra's 1959 algorithm.
+                A* uses a greedy search and finds a least-cost path
+                from a given initial node to one goal node (out of one or more possible goals).
+                As A* traverses the graph, it follows a path of the lowest expected total cost or distance,
+                keeping a sorted priority queue of alternate path segments along the way.
+                It uses a heuristic cost function of node to determine the order in which the
+                search visits nodes in the graph.
+                For A* we take first node which have the lowest sum of path cost and expected remaining cost.
+                But heuristic must be admissible, that is, it must not overestimate the distance to the goal.
+                The time complexity of A* depends on the heuristic.
+            </p>
+
+            <p>
+                For python we can use "heapq" module for priority queue and
+                add cost part for each element.
+                For maze one of the simple heuristic can be manhattan distance.
+            </p>
+
+            <div class="panel panel-default code-panel">
+                <div class="panel-heading" role="tab">
+                    <h4 class="panel-title">
+                        <a class="collapsed " data-toggle="collapse" href="#collapse-astar-code" aria-expanded="false"
+                           onclick="toggleCollapsed(this)">
+                            Show python code:
+                        </a>
+                    </h4>
+                </div>
+                <div id="collapse-astar-code" class="panel-collapse collapse" role="tabpanel">
+                    <div class="panel-body">
+                        <pre>from heapq import heappop, heappush
+
+
+def heuristic(cell, goal):
+    return abs(cell[0] - goal[0]) + abs(cell[1] - goal[1])
+
+
+def find_path_astar(maze):
+    start, goal = (1, 1), (len(maze) - 2, len(maze[0]) - 2)
+    pr_queue = []
+    heappush((0 + heuristic(start, goal), "", start))
+    visited = set()
+    graph = maze2graph(maze)
+    while pr_queue:
+        cost, path, current = heappop(pr_queue)
+        if current == goal:
+            return path
+        if current in visited:
+            continue
+        visited.add(current)
+        for direction, neighbour in graph[current]:
+            heappush((cost + heuristic(neighbour, goal), path + direction, neighbour))
+    return "NO WAY!"</pre>
+                    </div>
+                </div>
+            </div>
+
+            <p>
+                In the next animation you can see how A* traverse through a maze.
+                As we can see this algorithm find the shortest path and expand less cells than BFS.
+                Numbered cells are nodes in the priority queue (as they was added, but not as will taken).
+                Grey cells are visited. Orange cells show the result route.
             </p>
 
             <div class="board" id="maze-astar-board">

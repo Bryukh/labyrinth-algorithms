@@ -49,6 +49,32 @@ def find_path_dfs(maze):
             stack.append((path + direction, neighbour))
     return "NO WAY!"
 
+
+from heapq import heappop, heappush
+
+
+def heuristic(cell, goal):
+    return abs(cell[0] - goal[0]) + abs(cell[1] - goal[1])
+
+
+def find_path_astar(maze):
+    start, goal = (1, 1), (len(maze) - 2, len(maze[0]) - 2)
+    pr_queue = []
+    heappush((0 + heuristic(start, goal), "", start))
+    visited = set()
+    graph = maze2graph(maze)
+    while pr_queue:
+        cost, path, current = heappop(pr_queue)
+        if current == goal:
+            return path
+        if current in visited:
+            continue
+        visited.add(current)
+        for direction, neighbour in graph[current]:
+            heappush((cost + heuristic(neighbour, goal), path + direction, neighbour))
+    return "NO WAY!"
+
+
 MAZE = [
     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
     [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],

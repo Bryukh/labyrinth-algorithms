@@ -45,7 +45,7 @@ a matrix with defaultdict, but I want to try a simpler method better suited for 
 For each cell we only look at the "south" and "east" neighbours and add them as "connections".
 And with these directions we add the reverse "N" and "W" connection for neighbouring cells.
 This way we skip duplicate operations.
-Don't forget to check for edge cases. This will give us our maze to graph convertor.
+Don't forget to check for edge cases. 
 Below you can see the simple code for it.
 
 ```python
@@ -77,7 +77,7 @@ It should look like we go level by level and before we move on to look at the ne
 check all nodes in current level. For a graph search, it's very important to write all of the visited
 nodes, or we can get ourselves into a loop.
 
-BFS is optimal for this mission and is guaranteed to find the best solution that exists.
+BFS is optimal and is guaranteed to find the best solution that exists.
 Time complexity for BFS (worst case) is O(|V|+|E|), where |V| is a number of nodes and 
 |E| is a number of edges in the graph.
 

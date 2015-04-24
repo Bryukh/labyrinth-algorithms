@@ -6,47 +6,47 @@ Base Algorithm review for
 [Checkio](http://www.checkio.org/) mission.
 
 
-This is an article about various algorithms 
-to solve Checkio Mission "Open Labyrinth" with interactive explanations.
+This is an article about various sorts of algorithms which might be used
+to solve the Checkio Mission "Open Labyrinth" with someinteractive explanations.
 You can see the result [here](http://bryukh.com/labyrinth-algorithms/).
 
 ## [Introduce](http://bryukh.com/labyrinth-algorithms/#introduce)
 
-Early I've written an [article](http://www.checkio.org/blog/find-path/)
-about solutions and algorithms for mission "Open Labyrinth" for CheckiO blog.
-But readers asked about more schemas and interactive explanation.
-And I made this page with labyrinth algorithm explanations.
+In a previous [article](http://www.checkio.org/blog/find-path/), I wrote
+about solutions and algorithms for the mission "Open Labyrinth" on the CheckiO blog.
+Since then, I've received many requests to learn a little more about schemas and for a more interactive explanation.
+So, I've put together this more in depth article with some visual labyrinth algorithm explanations.
 You can see how BFS, DFS or A\* queue or stack and how they find a path for 
-various labyrinths.
+different labyrinths.
 
-All examples are based on original ["Open Labyrinth"][open-labyrinth] mission.
-In this mission you are given the map of a maze, 
+All of the examples here are are based on the original ["Open Labyrinth"][open-labyrinth] mission.
+In this mission you are given the map of a maze 
 and your task is to find a path from one corner to another.
 The maze can be represented as a graph where empty cells are nodes and adjacent cells are connected.
-Because we don't need find the shortest path, we can use various graph-traversal algorithms.
+Because we don't need find the shortest path, we can use a variety of graph-traversal algorithms.
 
 ## [Maze to Graph](http://bryukh.com/labyrinth-algorithms/#maze2graph)
 
-First I would like to change a representation for a maze.
-This part is not necessary and we can detect "neighbours" while search path.
+First I would like to change the representation of the maze.
+This part is not necessary and we can detect "neighbours" while we search for a path.
 But for newbies it will be simpler to decompose the problem and first convert
-a maze as 2D array to a graph as a dictionary.
+a maze into a 2D array and into a graph as a dictionary.
 
 
-Our graph will be represented as a dictionary, where keys are node coordinates and
-values are neighbour node coordinates and direction how to get in it.
+Our graph will be represented as a dictionary, where keys are node coordinates, 
+values are neighbour node coordinates and directions are how to get to it.
 Node coordinates are represented as a tuple with two numbers. 
 This way each cell has unique name.
-Directions will be useful to write route when we will search a path inside the maze.
+Directions will be useful to write the route when we search fora path inside the maze.
 
-First we collect all empty cells and write them as a keys.
-Then gather information about neighbours. Of course we can do this in one iteration through
-a matrix with defaultdict, for example, but I want to show it with simpler for python newbie way.
-For each cell we look ar "south" and "east" neighbours only and add them as "connections".
-And with these "S" and "E" directions we add reverse "N" and "W" connection for neighbour cells.
-This way we will skip duplicate operations.
-Don't forget to check edge cases. And as result we will get our maze to graph convertor.
-Below you can see simple code for it.
+First we collect all of the empty cells and write them as a keys.
+Then gather information about the neighbours. We could do this in one iteration through
+a matrix with defaultdict, but I want to try a simpler method better suited for Python newbies.
+For each cell we only look at the "south" and "east" neighbours and add them as "connections".
+And with these directions we add the reverse "N" and "W" connection for neighbouring cells.
+This way we skip duplicate operations.
+Don't forget to check for edge cases. This will give us our maze to graph convertor.
+Below you can see the simple code for it.
 
 ```python
 def maze2graph(maze):
@@ -63,30 +63,30 @@ def maze2graph(maze):
     return graph
 ```
 
-In these animation you can see how the recent function check neighbours.
-But it's little difficult from Python realisation because py dictionary are unordered.
-But this animation should show you how maze change to "skeleton" form.
+In these animations, you can see how the recent function checks the neighbours.
+But it's little difficult in a Python realization, because py dictionaries are unordered.
+This animation should show you how the maze changes to a "skeleton" form.
 
 ## [Breadth First Search](http://bryukh.com/labyrinth-algorithms/#bfs)
 
-Breadth-first search (BFS) is an algorithm for traversing or searching a path in a graph.
-It starts at some arbitrary node of the graph and explores the neighbor nodes first,
-before moving to the next level neighbors. For BFS we are using queue to store nodes which
-will be exploring. This way we check the nearest nodes first. 
-For tree it looks like we look level by level and before "to down" at the next level we should
-check all nodes in current level. For graph search it's very important to write all visited
-nodes or we can get to a loop.
+Breadth-first searching (BFS) is an algorithm for traversing or searching a path in a graph.
+It starts at some arbitrary node of the graph and explores the neighboring nodes first,
+before moving to the next level neighbors. For BFS we are using a queue to store the nodes which
+will be exploring. This way we check the closest nodes first. 
+It should look like we go level by level and before we move on to look at the next level, we should
+check all nodes in current level. For a graph search, it's very important to write all of the visited
+nodes, or we can get ourselves into a loop.
 
-BFS is an optimal and it is guaranteed to find the best solution that exists.
+BFS is optimal for this mission and is guaranteed to find the best solution that exists.
 Time complexity for BFS (worst case) is O(|V|+|E|), where |V| is a number of nodes and 
 |E| is a number of edges in the graph.
 
-In Python we can use "deque" as queue or simple list (but it's slower).
-We put the initial node to the queue.
-Then repeat the next procedure until visit the goal node or
-visit all available nodes: take the first from the queue, check was it visited or not,
-check is it goal, put all neighbours in the end of the queue, repeat.
-For each step we track not only nodes, but directions and a path to the current node too.
+In Python we can use "deque" as queue, or even a simple list (but it's slower).
+We put the initial node into the queue.
+Then repeat this procedure until visit the goal node or
+visit all available nodes: take the first from the queue, check if it was visited or not,
+check if it's the goal, put all neighbours in the end of the queue, repeat.
+For each step we track not only the nodes, but directions and the path for the current node too.
 
 ```python
 from collections import deque
@@ -116,17 +116,16 @@ Grey cells are visited. Orange cells show the result route.
 ## [Depth First Search](http://bryukh.com/labyrinth-algorithms/#dfs)
 
 Depth-first search (DFS) is an algorithm similar to BFS.
-It starts at some arbitrary node of the graph as BFS, 
+It starts at some arbitrary node of the graph like BFS, 
 but explores as far as possible along each branch.
-For DFS non-recursive implementation we are using stack instead queue as in BFS to store nodes
-which will be exploring. This way we check nodes first which were added in stack last.
+For a DFS non-recursive implementation, we are using a stack instead of a queue to store nodes
+which will be exploring. This way we check the nodes first which were last added to the stack.
 
-DFS is not an optimal and it is not guaranteed to find the best solution that exists.
-So DFS is not good choice to find a path in a maze, but it has another applications as 
+DFS is not optimal and it is not guaranteed to find the best solution.
+This means DFS is not good choice to find a path in a maze, but it has other applications in 
 finding connected components or maze generation.
  
-Python code for DFS has only one difference from BFS "queue" to "stack" renaming (for readability)
-and "popleft()" to "pop()".
+The Python code for DFS has only a couple differences from BFS. We've renamed "queue" to "stack" for readability and "popleft()" to "pop()".
 
 ```python
 from collections import deque
@@ -156,20 +155,20 @@ Grey cells are visited. Orange cells show the result route.
 
 ## [A\* Search](http://bryukh.com/labyrinth-algorithms/#astar)
 
-A\* widely used pathfinding algorithm and it's an extension of Edsger Dijkstra's 1959 algorithm.
+A\* is a widely used pathfinding algorithm and an extension of Edsger Dijkstra's 1959 algorithm.
 A* uses a greedy search and finds a least-cost path
-from a given initial node to one goal node (out of one or more possible goals).
+from the given initial node to one goal node ot of one or more possibilities.
 As A\* traverses the graph, it follows a path of the lowest expected total cost or distance,
 keeping a sorted priority queue of alternate path segments along the way.
 It uses a heuristic cost function of node to determine the order in which the 
 search visits nodes in the graph.
-For A\* we take first node which have the lowest sum of path cost and expected remaining cost.
-But heuristic must be admissible, that is, it must not overestimate the distance to the goal.
+For A\* we take first node which has the lowest sum path cost and expected remaining cost.
+But heuristics must be admissible, that is, it must not overestimate the distance to the goal.
 The time complexity of A\* depends on the heuristic.
 
-For python we can use "heapq" module for priority queue and
-add cost part for each element.
-For maze one of the simple heuristic can be manhattan distance.
+For python we can use "heapq" module for priority queuing and
+add the cost part for each element.
+For a maze, one of the most simple heuristics can be "manhattan distance".
 
 ```python
 from heapq import heappop, heappush
@@ -197,7 +196,7 @@ def find_path_astar(maze):
     return "NO WAY!"
 ```
 
-In the next animation you can see how A\* traverse through a maze.
-As we can see this algorithm find the shortest path and expand less cells than BFS.
-Numbered cells are nodes in the priority queue (as they was added, but not as will taken).
+In this animation you can see how A\* traverse through a maze.
+As we can see, this algorithm finds the shortest path and uses less cells than BFS.
+Numbered cells are nodes in the priority queue (as they were added, but not as will be taken).
 Grey cells are visited. Orange cells show the result route.

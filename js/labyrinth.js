@@ -119,7 +119,7 @@ function animateXFSMaze(svg, maze, mazeElements, algorithm) {
     }
 
 
-    var queue = [[0, [1, 1], []]];
+    var queue = [[0, 0, [1, 1], []]];
     var visited = [];
     var queued = ["1-1"];
     markFuture(mazeElements[1][1], [1, 1], count);
@@ -140,8 +140,9 @@ function animateXFSMaze(svg, maze, mazeElements, algorithm) {
             taken = queue.splice(minIndex, 1)[0];
         }
         var weight = taken[0];
-        var node = taken[1];
-        var path = taken[2];
+        var cost = taken[1];
+        var node = taken[2];
+        var path = taken[3];
         var nodeName = node[0] + "-" + node[1];
         path.push(nodeName);
         if (visited.indexOf(nodeName) !== -1) {
@@ -179,7 +180,7 @@ function animateXFSMaze(svg, maze, mazeElements, algorithm) {
                 else {
                     remaining = 0;
                 }
-                queue.push([weight + 1 + remaining, newCoor, path.slice()]);
+                queue.push([cost + remaining + 1, cost + 1, newCoor, path.slice()]);
                 svg.timeouts.push(setTimeout(function (el, coor, n) {
 
                     return function () {

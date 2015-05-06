@@ -332,18 +332,19 @@ def heuristic(cell, goal):
 def find_path_astar(maze):
     start, goal = (1, 1), (len(maze) - 2, len(maze[0]) - 2)
     pr_queue = []
-    heappush((0 + heuristic(start, goal), "", start))
+    heappush(pr_queue, (0 + heuristic(start, goal), 0, "", start))
     visited = set()
     graph = maze2graph(maze)
     while pr_queue:
-        cost, path, current = heappop(pr_queue)
+        _, cost, path, current = heappop(pr_queue)
         if current == goal:
             return path
         if current in visited:
             continue
         visited.add(current)
         for direction, neighbour in graph[current]:
-            heappush((cost + heuristic(neighbour, goal), path + direction, neighbour))
+            heappush(pr_queue, (cost + heuristic(neighbour, goal), cost + 1,
+                                path + direction, neighbour))
     return "NO WAY!"</pre>
                     </div>
                 </div>

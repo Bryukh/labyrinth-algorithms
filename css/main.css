@@ -10,6 +10,13 @@ body {
   #header p {
     font-size: large; }
 
+#footer {
+  background-color: #9ad0ec;
+    color: #115d81;
+    padding-bottom: 20px;
+    padding-top: 30px;
+    margin-top: 40px; }
+
 .github-fork-ribbon {
   background-color: #115d81; }
 

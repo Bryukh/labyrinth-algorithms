@@ -8,7 +8,7 @@ Base Algorithm review for
 
 This is an article about various sorts of algorithms which might be used
 to solve the Checkio Mission "Open Labyrinth" with some interactive explanations.
-You can see the result [here](http://bryukh.com/labyrinth-algorithms/).
+You can see the result [here](http://bryukh.github.io/labyrinth-algorithms/).
 
 ## [Introduce](http://bryukh.com/labyrinth-algorithms/#introduce)
 
